@@ -302,4 +302,26 @@ const resolveFetch = () => {
   });
 };
 
-resolveFetch().then(animationTimeline());
+// 1. Fetch the audio element
+const audio = document.getElementById('bg-music');
+
+// 2. Add a function to play the music
+const playMusic = () => {
+  audio.play().catch(error => {
+    console.log("Browser blocked autoplay. Waiting for user interaction.");
+  });
+};
+
+// 3. Trigger it on the first click anywhere on the screen
+// This bypasses the browser's "no-autoplay" rule
+document.addEventListener('click', playMusic, { once: true });
+
+// 4. (Optional) If you have a specific "Start" button, add it there too:
+// document.querySelector('.some-start-button').addEventListener('click', playMusic);
+
+resolveFetch().then(() => {
+  const audio = document.getElementById("bg-music");
+  audio.play().catch(() => {});
+  animationTimeline();
+});
+
